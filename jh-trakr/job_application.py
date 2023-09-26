@@ -1,4 +1,5 @@
 import sqlite3
+import os
 
 
 class JobApp:
@@ -27,6 +28,29 @@ def new_app() -> list:
     position_input = input("Position: ")
     location_input = input("Location: ")
     url_input = input("URL: ")
+
+    con = sqlite3.connect("job_app.db")
+
+    cur = con.cursor()
+
+    if os.path.isfile("job_app.db"):
+        print("Database exists")
+    else:
+        print("Creating database")
+        create_table_cmd = """
+            CREATE TABLE IF NOT EXISTS job_apps (
+                id INTEGER PRIMARY KEY,
+                company TEXT,
+                position TEXT,
+                application_status TEXT,
+                location TEXT,
+                resume_path TEXT,
+                url TEXT,
+                date TEXT
+            );
+        """
+
+        cur.execute(create_table_cmd)
 
     return [company_input, position_input, location_input, url_input]
 

@@ -1,6 +1,3 @@
-
-
-
 new:
 	python3 jh-trakr/main.py new
 
@@ -10,8 +7,11 @@ app:
 rej:
 	python3 jh-trakr/main.py rejected
 
+install: requirements.txt
+	pip3 install -r requirements.txt
+
 build: setup.py
 	python3 setup.py build bdist_wheel
 
 clean:
-	rm -rf build dist jh-trakr.egg-info
+	rm -rf build dist jh_trakr.egg-info

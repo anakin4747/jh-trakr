@@ -1,3 +1,4 @@
+
 from job_application import JobApp, new_app, applied_to_app, rejected_from_app
 import sys
 
