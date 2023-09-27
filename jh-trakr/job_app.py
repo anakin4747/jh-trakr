@@ -1,5 +1,6 @@
 from datetime import datetime
 from pyfzf.pyfzf import FzfPrompt
+from tabulate import tabulate
 import sqlite3
 import shutil
 import os
@@ -135,10 +136,28 @@ def rejected_from_app():
                 os.path.join("applied/rejected", rejected_app))
 
 
-def show_apps():
+def show_apps(opt="all"):
     """
     Have a command which displays the apps without having to worry about sql
     edit main.py to also allow for 3 args so you can run 'make show <status>'
     where <status> is job status
     """
-    pass
+    with sqlite3.connect("job_apps.db") as con:
+
+        cur = con.cursor()
+
+        if opt == "all":
+            query = "SELECT * FROM job_apps;"
+        else:
+            query = (
+                "SELECT * FROM job_apps\n"
+                f"WHERE application_status = '{opt}';"
+            )
+
+        records = cur.execute(query).fetchall()
+
+        headers = [desc[0] for desc in cur.description]
+
+        table = tabulate(records, headers, tablefmt="pretty")
+
+        print(table)
