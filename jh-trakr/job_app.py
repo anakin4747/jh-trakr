@@ -1,25 +1,17 @@
 import sqlite3
+import os
+import re
 
 
-# class JobApp:
-#
-#     def __init__(self, company, position, location, url):
-#         self.company = company
-#         self.position = position
-#         self.location = location
-#         self.url = url
-#         self.status = "working"
-#
-#     def set_status(self, status):
-#         pass
-#
-#     def print_job(self):
-#         print(f'Company: {self.company}',
-#               f'Position: {self.position}',
-#               f'Location: {self.location}',
-#               f'URL: {self.url}',
-#               f'Status: {self.status}')
-#
+def sanitize_filename(filename):
+    # Pattern to catch illegal filename characters
+    pattern = r'[\\/:"*?<>|]+'
+
+    # Use re.sub() to replace all matched characters with underscores
+    sanitized_filename = re.sub(pattern, '_', filename)
+
+    return sanitized_filename
+
 
 def new_app():
     """ Obtains job information from user """
@@ -28,6 +20,7 @@ def new_app():
     location_input = input("Location: ")
     url_input = input("URL: ")
 
+    # Creates db if needed and stores new job app
     with sqlite3.connect("job_app.db") as con:
 
         cur = con.cursor()
@@ -56,7 +49,20 @@ def new_app():
             f"'{location_input}', '{url_input}');"
         )
         cur.execute(insert_new_app_cmd)
+        last_id = cur.lastrowid
         con.commit()
+
+    """
+    now you need to make the working dir,
+    make the working/app dir,
+    copy the template over
+    """
+    new_app_folder = sanitize_filename(
+        f"{position_input}-at-{company_input}-{last_id}")
+
+    full_app_path = os.path.join("working", new_app_folder)
+
+    os.makedirs(full_app_path, exist_ok=True)
 
 
 def applied_to_app():
@@ -65,3 +71,12 @@ def applied_to_app():
 
 def rejected_from_app():
     print("rejected")
+
+
+def show_apps():
+    """
+    Have a command which displays the apps without having to worry about sql
+    edit main.py to also allow for 3 args so you can run 'make show <status>'
+    where <status> is job status
+    """
+    pass
