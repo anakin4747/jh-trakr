@@ -1,0 +1,166 @@
+\documentclass{article}
+
+\usepackage{titlesec} 
+\usepackage{titling}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{hyperref}
+
+\usepackage{xcolor}
+% Customize URL appearance
+\definecolor{trueblue}{RGB}{0,102,204}
+\hypersetup{ colorlinks=true, urlcolor=trueblue, pdfborderstyle={/S/U/W 1} }
+% Remove default box around \url
+\urlstyle{same}
+
+\usepackage[margin=0.5in]{geometry}
+
+\pagestyle{empty}
+
+\titleformat{\section} {\bfseries\Large} {} {0em} {}[\titlerule]
+\titlespacing{\section} {0em} {0.5em} {0.5em}
+
+\titleformat{\subsection} {\bfseries\large} {} {0em} {}
+\titlespacing{\subsection} {0em} {0.5em} {0em}
+
+\titleformat{\subsubsection}[runin] {\bfseries} {} {0em} {}
+\titlespacing{\subsubsection} {0em} {0em} {1em}
+
+\renewcommand{\maketitle}{
+    \begin{center}{
+        \LARGE \bfseries \theauthor}
+        \\
+        \vspace{.25em}{
+            \normalsize \bfseries 
+            email --- Phone Number --- Location
+            \\
+            \href{https://www.linkedin.com/}{
+                \underline{LinkedIn}}
+            ---
+            \href{https://github.com/}{
+                \underline{GitHub}}
+        }
+    \end{center}
+}
+
+\def\topSeparation{2pt}
+\def\itemSeparation{2pt}
+\def\parSeparation{2pt}
+\def\partopSeparation{2pt}
+
+\begin{document}
+
+\title{R\'esum\'e} \author{Author}
+
+\maketitle
+
+\vspace{-2em}
+
+\section{Education}
+
+\subsection{Bachelor of }
+\subsubsection{The University of }
+ Date to Date
+
+\begin{itemize}[topsep=\topSeparation,
+                itemsep=\itemSeparation,
+                parsep=\parSeparation,
+                partopsep=\partopSeparation]
+
+    \item{}
+            
+    \item{}
+
+    \item{}
+
+\end{itemize}
+
+\section{Engineering Experience}
+
+\subsection{}
+\subsubsection{}
+ Date to Date
+
+\begin{itemize}[topsep=\topSeparation,
+                itemsep=\itemSeparation,
+                parsep=\parSeparation,
+                partopsep=\partopSeparation]
+        
+    \item{}
+
+    \item{}
+
+    \item{}
+
+\end{itemize}
+
+\subsection{}
+\subsubsection{}
+ Date to Date
+
+\begin{itemize}[topsep=\topSeparation,
+                itemsep=\itemSeparation,
+                parsep=\parSeparation,
+                partopsep=\partopSeparation]
+        
+    \item{}
+
+    \item{}
+
+    \item{}
+
+\end{itemize}
+
+\section{Technical Skills and Projects}
+\subsection{}
+
+\vspace{.4em}
+
+\begin{itemize}[topsep=\topSeparation,
+                itemsep=\itemSeparation,
+                parsep=\parSeparation,
+                partopsep=\partopSeparation]
+
+    \item{}
+
+    \item{}
+
+    \item{}
+
+\end{itemize}
+
+\subsection{}
+
+\vspace{.4em}
+
+\begin{itemize}[topsep=\topSeparation,
+                itemsep=\itemSeparation,
+                parsep=\parSeparation,
+                partopsep=\partopSeparation]
+
+    \item{}  
+
+    \item{}
+
+    \item{}
+
+\end{itemize}
+
+\subsection{}
+
+\vspace{.4em}
+
+\begin{itemize}[topsep=\topSeparation,
+                itemsep=\itemSeparation,
+                parsep=\parSeparation,
+                partopsep=\partopSeparation]
+
+    \item{}
+
+    \item{}
+
+    \item{}
+
+\end{itemize}
+
+\end{document}

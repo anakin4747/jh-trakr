@@ -52,17 +52,19 @@ def new_app():
         last_id = cur.lastrowid
         con.commit()
 
-    """
-    now you need to make the working dir,
-    make the working/app dir,
-    copy the template over
-    """
     new_app_folder = sanitize_filename(
         f"{position_input}-at-{company_input}-{last_id}")
 
     full_app_path = os.path.join("working", new_app_folder)
 
     os.makedirs(full_app_path, exist_ok=True)
+
+    resume_template_path = "template/resume.tex"
+
+    dest_app_resume = os.path.join(full_app_path,
+                                   f"{position_input}-at-{company_input}.tex")
+
+    os.system(f"cp {resume_template_path} {dest_app_resume}")
 
 
 def applied_to_app():
