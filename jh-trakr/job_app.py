@@ -1,11 +1,14 @@
+from datetime import datetime
+from pyfzf.pyfzf import FzfPrompt
 import sqlite3
+import shutil
 import os
 import re
 
 
 def sanitize_filename(filename):
     # Pattern to catch illegal filename characters
-    pattern = r'[\\/:"*?<>|]+'
+    pattern = r'[\\/:"*?<>|\s]+'
 
     # Use re.sub() to replace all matched characters with underscores
     sanitized_filename = re.sub(pattern, '_', filename)
@@ -21,7 +24,7 @@ def new_app():
     url_input = input("URL: ")
 
     # Creates db if needed and stores new job app
-    with sqlite3.connect("job_app.db") as con:
+    with sqlite3.connect("job_apps.db") as con:
 
         cur = con.cursor()
 
@@ -61,18 +64,75 @@ def new_app():
 
     resume_template_path = "template/resume.tex"
 
-    dest_app_resume = os.path.join(full_app_path,
-                                   f"{position_input}-at-{company_input}.tex")
+    dest_app_resume = os.path.join(full_app_path, sanitize_filename(
+                                   f"{position_input}-at-{company_input}.tex"))
 
-    os.system(f"cp {resume_template_path} {dest_app_resume}")
+    shutil.copyfile(resume_template_path, dest_app_resume)
 
 
 def applied_to_app():
-    print("applied")
+    """ Moves application project files to applied folder and sets status of
+    app in database """
+
+    applied_app = FzfPrompt().prompt(os.listdir("working"))[0]
+
+    applied_id = applied_app.split('-')[-1]
+
+    with sqlite3.connect("job_apps.db") as con:
+
+        cur = con.cursor()
+
+        today = datetime.now().strftime("%B %d, %Y")
+
+        resume_path = os.path.join("applied",
+                                   applied_app,
+                                   f"{applied_app}.tex")
+
+        update_cmd = (
+            "UPDATE job_apps\n"
+            "SET application_status = 'applied',\n"
+            f"\tdate = '{today}',\n"
+            f"\tresume_path = '{resume_path}'\n"
+            f"WHERE id = {applied_id};"
+        )
+
+        cur.execute(update_cmd)
+        con.commit()
+
+    os.makedirs("applied", exist_ok=True)
+
+    shutil.move(os.path.join("working", applied_app),
+                os.path.join("applied", applied_app))
 
 
 def rejected_from_app():
-    print("rejected")
+
+    rejected_app = FzfPrompt().prompt(os.listdir("applied"))[0]
+
+    rejected_id = rejected_app.split('-')[-1]
+
+    with sqlite3.connect("job_apps.db") as con:
+
+        cur = con.cursor()
+
+        resume_path = os.path.join("applied/rejected",
+                                   rejected_app,
+                                   f"{rejected_app}.tex")
+
+        update_cmd = (
+            "UPDATE job_apps\n"
+            "SET application_status = 'rejected',\n"
+            f"\tresume_path = '{resume_path}'\n"
+            f"WHERE id = {rejected_id};"
+        )
+
+        cur.execute(update_cmd)
+        con.commit()
+
+    os.makedirs("applied/rejected", exist_ok=True)
+
+    shutil.move(os.path.join("applied", rejected_app),
+                os.path.join("applied/rejected", rejected_app))
 
 
 def show_apps():

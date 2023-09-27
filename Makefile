@@ -18,3 +18,8 @@ build: setup.py
 
 clean:
 	rm -rf build dist jh_trakr.egg-info requirements.txt
+
+super-clean:
+	rm -rf build dist jh_trakr.egg-info requirements.txt \
+		applied working job_apps.db
+
