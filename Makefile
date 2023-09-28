@@ -19,13 +19,16 @@ show-applied:
 show-rejected:
 	python3 jh_trakr/main.py show rejected
 
+test:
+	pytest -v
+
 freeze:
 	pip3 freeze --all > requirements.txt
 
 install: requirements.txt
 	pip3 install -r requirements.txt
 
-build: setup.py
+build: setup.py test
 	python3 setup.py build bdist_wheel
 
 clean:
@@ -34,4 +37,3 @@ clean:
 super-clean:
 	rm -rf build dist jh_trakr.egg-info requirements.txt \
 		applied working job_apps.db
-

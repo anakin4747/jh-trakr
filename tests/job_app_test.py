@@ -99,19 +99,63 @@ def hide_database():
 
 
 @pytest.mark.applied_to_app
-def test_applied_to_app_db_exists(capsys, hide_database):
+def test_applied_to_app_no_db_fail(capsys, hide_database):
     with pytest.raises(SystemExit) as exit_info:
-        job_app.applied_to_app()
+        job_app.applied_to_app(database=TEST_DB)
 
     assert "No database file" in capsys.readouterr().out
     assert exit_info.type == SystemExit
     assert exit_info.value.code == 1
 
 
-# def test_applied_to_app_creates_dirs():
-#     pass
+@pytest.fixture
+def hide_working_apps():
+    if os.path.exists("working"):
+        for dir in os.listdir("working"):
+            shutil.move("working/" + dir, "working.bak/" + dir)
+    yield
+    if os.path.exists("working.bak"):
+        for dir in os.listdir("working.bak"):
+            shutil.move("working.bak/" + dir, "working/" + dir)
+
+
+@pytest.mark.applied_to_app
+def test_applied_to_app_no_app_in_working_fail(capsys, hide_working_apps):
+    with pytest.raises(SystemExit) as exit_info:
+        job_app.applied_to_app(database=TEST_DB)
+
+    assert "No working application" in capsys.readouterr().out
+    assert exit_info.type == SystemExit
+    assert exit_info.value.code == 1
+
+# TODO - last left off
+# @pytest.fixture
+# def working_job_app():
+#     test_args = ["Company",
+#                  "Position",
+#                  "Location",
+#                  "URL"]
+#     id = job_app.new_app(database=TEST_DB, test_args=test_args)
+#
+#     if os.path.exists("applied"):
+#         for dir in os.listdir("applied"):
+#             shutil.move("applied/" + dir, "applied.bak/" + dir)
+#     yield
+#     os.removedirs(f"applied/Position-at-Company-{id}")
+#     os.remove(TEST_DB)
+#     if os.path.exists("applied.bak"):
+#         for dir in os.listdir("applied.bak"):
+#             shutil.move("applied.bak/" + dir, "applied/" + dir)
 #
 #
+# @pytest.mark.applied_to_app
+# def test_applied_to_app_creates_dirs(working_job_app):
+#     job_app.applied_to_app(database=TEST_DB)
+#
+#     assert os.path.exists("applied")
+#     assert len(os.listdir("applied")) == 1
+
+
 # def test_applied_to_app_successful_mv():
 #     pass
 #

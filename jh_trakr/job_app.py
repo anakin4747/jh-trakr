@@ -90,9 +90,10 @@ def applied_to_app(database=STD_DB):
         sys.exit(1)
 
     if not os.listdir("working"):
-        pass
+        print("No working application")
+        sys.exit(1)
 
-    if not os.path.exists(STD_DB):
+    if not os.path.exists(database):
         print("No database file")
         sys.exit(1)
 
