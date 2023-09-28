@@ -1,23 +1,23 @@
 new:
-	python3 jh-trakr/main.py new
+	python3 jh_trakr/main.py new
 
 app:
-	python3 jh-trakr/main.py applied
+	python3 jh_trakr/main.py applied
 
 rej:
-	python3 jh-trakr/main.py rejected
+	python3 jh_trakr/main.py rejected
 
 show:
-	python3 jh-trakr/main.py show
+	python3 jh_trakr/main.py show
 
 show-working:
-	python3 jh-trakr/main.py show working
+	python3 jh_trakr/main.py show working
 
 show-applied:
-	python3 jh-trakr/main.py show applied
+	python3 jh_trakr/main.py show applied
 
 show-rejected:
-	python3 jh-trakr/main.py show rejected
+	python3 jh_trakr/main.py show rejected
 
 freeze:
 	pip3 freeze --all > requirements.txt

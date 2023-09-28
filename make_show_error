@@ -1,0 +1,13 @@
+add a test for show so it doesn't error since no make new has ran
+
+
+python3 jh-trakr/main.py show
+Traceback (most recent call last):
+  File "/Users/kin/projects/py/job-hunt-tracker/jh-trakr/main.py", line 22, in <module>
+    show_apps()
+  File "/Users/kin/projects/py/job-hunt-tracker/jh-trakr/job_app.py", line 157, in show_apps
+    records = cur.execute(query).fetchall()
+              ^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: job_apps
+make: *** [show] Error 1
+

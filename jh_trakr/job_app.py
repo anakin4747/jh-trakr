@@ -3,13 +3,16 @@ from pyfzf.pyfzf import FzfPrompt
 from tabulate import tabulate
 import sqlite3
 import shutil
+import sys
 import os
 import re
 
+STD_DB = "job_apps.db"
+
 
 def sanitize_filename(filename):
-    # Pattern to catch illegal filename characters
-    pattern = r'[\\/:"*?<>|\s]+'
+    """ Pattern to catch illegal filename characters """
+    pattern = r'[\\/:"\'*?<>|\s]+'
 
     # Use re.sub() to replace all matched characters with underscores
     sanitized_filename = re.sub(pattern, '_', filename)
@@ -17,12 +20,15 @@ def sanitize_filename(filename):
     return sanitized_filename
 
 
-def new_app(database="job_apps.db"):
+def new_app(database=STD_DB, test_args=None):
     """ Obtains job information from user """
-    company_input = input("Company: ")
-    position_input = input("Position: ")
-    location_input = input("Location: ")
-    url_input = input("URL: ")
+    if test_args is None:
+        company_input = input("Company: ")
+        position_input = input("Position: ")
+        location_input = input("Location: ")
+        url_input = input("URL: ")
+    else:
+        company_input, position_input, location_input, url_input = test_args
 
     db_no_suffix = database.split('.')[0]
 
@@ -72,10 +78,23 @@ def new_app(database="job_apps.db"):
 
     shutil.copyfile(resume_template_path, dest_app_resume)
 
+    return last_id
 
-def applied_to_app(database="job_apps.db"):
+
+def applied_to_app(database=STD_DB):
     """ Moves application project files to applied folder and sets status of
     app in database """
+
+    if not os.path.exists("working"):
+        print("No working directory")
+        sys.exit(1)
+
+    if not os.listdir("working"):
+        pass
+
+    if not os.path.exists(STD_DB):
+        print("No database file")
+        sys.exit(1)
 
     applied_app = FzfPrompt().prompt(os.listdir("working"))[0]
 
@@ -110,8 +129,8 @@ def applied_to_app(database="job_apps.db"):
                 os.path.join("applied", applied_app))
 
 
-def rejected_from_app(database="job_apps.db"):
-
+def rejected_from_app(database=STD_DB):
+    """ Moves applied apps to rejected """
     rejected_app = FzfPrompt().prompt(os.listdir("applied"))[0]
 
     rejected_id = rejected_app.split('-')[-1]
@@ -142,7 +161,7 @@ def rejected_from_app(database="job_apps.db"):
                 os.path.join("applied/rejected", rejected_app))
 
 
-def show_apps(opt="all", database="job_apps.db"):
+def show_apps(opt="all", database=STD_DB):
     """
     Have a command which displays the apps without having to worry about sql
     edit main.py to also allow for 3 args so you can run 'make show <status>'
