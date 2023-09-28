@@ -10,6 +10,7 @@ import re
 STD_DB = "job_apps.db"
 WORKING_DIR = "working"
 APPLIED_DIR = "applied"
+REJ_DIR = os.path.join(APPLIED_DIR, "rejected")
 
 
 def sanitize_filename(filename):
@@ -138,9 +139,28 @@ def applied_to_app(database=STD_DB,
                 os.path.join(applied_dir, applied_app))
 
 
-def rejected_from_app(database=STD_DB):
+def rejected_from_app(database=STD_DB,
+                      test_args=None,
+                      applied_dir=APPLIED_DIR,
+                      rej_dir=REJ_DIR):
     """ Moves applied apps to rejected """
-    rejected_app = FzfPrompt().prompt(os.listdir("applied"))[0]
+
+    if not os.path.exists(applied_dir):
+        print("No applied directory")
+        sys.exit(1)
+
+    if not os.listdir(applied_dir):
+        print("No applied application")
+        sys.exit(1)
+
+    if not os.path.exists(database):
+        print("No database file")
+        sys.exit(1)
+
+    if test_args is None:
+        rejected_app = FzfPrompt().prompt(os.listdir(applied_dir))[0]
+    else:
+        rejected_app = test_args
 
     rejected_id = rejected_app.split('-')[-1]
 
@@ -150,7 +170,7 @@ def rejected_from_app(database=STD_DB):
 
         cur = con.cursor()
 
-        resume_path = os.path.join("applied/rejected",
+        resume_path = os.path.join(rej_dir,
                                    rejected_app,
                                    f"{rejected_app}.tex")
 
@@ -164,10 +184,10 @@ def rejected_from_app(database=STD_DB):
         cur.execute(update_cmd)
         con.commit()
 
-    os.makedirs("applied/rejected", exist_ok=True)
+    os.makedirs(rej_dir, exist_ok=True)
 
-    shutil.move(os.path.join("applied", rejected_app),
-                os.path.join("applied/rejected", rejected_app))
+    shutil.move(os.path.join(applied_dir, rejected_app),
+                os.path.join(rej_dir, rejected_app))
 
 
 def show_apps(opt="all", database=STD_DB):

@@ -5,13 +5,12 @@ import os
 
 
 TEST_DB = "test_database.db"
-TEST_DB_NO_SFX = TEST_DB.split('.')[0]
 TEST_WORK_DIR = "working_test"
 TEST_APPL_DIR = "applied_test"
 
 
 @pytest.fixture
-def setup_test_db_and_dirs():
+def setup_test_new_app():
     test_args = ["Company", "Position", "Location", "URL"]
     job_app.new_app(database=TEST_DB,
                     test_args=test_args,
@@ -36,7 +35,7 @@ def hide_working_dir():
 
 @pytest.mark.applied_to_app
 def test_applied_to_app_no_working_dir_fail(capsys,
-                                            setup_test_db_and_dirs,
+                                            setup_test_new_app,
                                             hide_working_dir):
     with pytest.raises(SystemExit) as exit_info:
         job_app.applied_to_app(work_dir=TEST_WORK_DIR)
@@ -57,7 +56,7 @@ def hide_database():
 
 @pytest.mark.applied_to_app
 def test_applied_to_app_no_db_fail(capsys,
-                                   setup_test_db_and_dirs,
+                                   setup_test_new_app,
                                    hide_database):
     with pytest.raises(SystemExit) as exit_info:
         job_app.applied_to_app(database=TEST_DB,
@@ -78,84 +77,38 @@ def hide_working_app():
 
 @pytest.mark.applied_to_app
 def test_applied_to_app_no_app_in_working_fail(capsys,
-                                               setup_test_db_and_dirs,
+                                               setup_test_new_app,
                                                hide_working_app):
     with pytest.raises(SystemExit) as exit_info:
-        test_args = "Position-at-Company-1"
         job_app.applied_to_app(database=TEST_DB,
-                               test_args=test_args,
-                               work_dir=TEST_WORK_DIR,
-                               applied_dir=TEST_APPL_DIR)
+                               work_dir=TEST_WORK_DIR)
 
     assert "No working application" in capsys.readouterr().out
     assert exit_info.type == SystemExit
     assert exit_info.value.code == 1
 
 
-# @pytest.fixture()
-# def working_job_app():
-#     test_args = ["Company",
-#                  "Position",
-#                  "Location",
-#                  "URL"]
-#     working_existed = os.path.exists("working")
-#
-#     id = job_app.new_app(database=TEST_DB, test_args=test_args)
-#
-#     applied_existed = False
-#
-#     if os.path.exists("applied"):
-#         applied_existed = True
-#         for dir in os.listdir("applied"):
-#             shutil.move("applied/" + dir, "applied.bak/" + dir)
-#     yield
-#     os.remove(TEST_DB)
-#     if os.path.exists("applied.bak"):
-#         for dir in os.listdir("applied.bak"):
-#             shutil.move("applied.bak/" + dir, "applied/" + dir)
-#     shutil.rmtree(f"applied/Position-at-Company-{id}")
-#
-#     if not applied_existed:
-#         shutil.rmtree("applied")
-#
-#     if not working_existed:
-#         shutil.rmtree("working")
-#
-#
-# @pytest.mark.applied_to_app
-# def test_applied_to_app_creates_dirs(working_job_app):
-#     test_arg = "Position-at-Company-1"
-#     job_app.applied_to_app(database=TEST_DB, test_args=test_arg)
-#
-#     assert os.path.exists("applied")
-#     assert len(os.listdir("applied")) == 1
-#
+@pytest.mark.applied_to_app
+def test_applied_to_app_creates_dirs(setup_test_new_app):
+    test_arg = "Position-at-Company-1"
+    job_app.applied_to_app(database=TEST_DB,
+                           test_args=test_arg,
+                           work_dir=TEST_WORK_DIR,
+                           applied_dir=TEST_APPL_DIR)
 
-# def test_applied_to_app_successful_mv():
-#     pass
-#
-#
-# """ These tests might also have common setup/teardown """
-#
-#
-# def test_rejected_from_app_applied_dir_exists():
-#     pass
-#
-#
-# def test_rejected_from_app_db_exists():
-#     pass
-#
-#
-# def test_rejected_from_app_creates_dirs():
-#     pass
-#
-#
-# def test_rejected_from_app_successful_mv():
-#     pass
-#
-#
-# """ show_apps tests setup/teardown """
-#
-#
-# def test_show_apps_db_exists():
-#     pass
+    assert os.path.exists(TEST_APPL_DIR)
+    assert len(os.listdir(TEST_APPL_DIR)) == 1
+
+
+@pytest.mark.applied_to_app
+def test_applied_to_app_successful_mv(setup_test_new_app):
+    assert len(os.listdir(TEST_WORK_DIR)) == 1
+
+    test_arg = "Position-at-Company-1"
+    job_app.applied_to_app(database=TEST_DB,
+                           test_args=test_arg,
+                           work_dir=TEST_WORK_DIR,
+                           applied_dir=TEST_APPL_DIR)
+
+    assert os.path.exists(TEST_WORK_DIR)
+    assert len(os.listdir(TEST_WORK_DIR)) == 0
