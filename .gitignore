@@ -36,3 +36,6 @@ Pipfile.lock
 # *.pyc
 
 *.db
+
+working
+applied
