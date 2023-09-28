@@ -7,6 +7,7 @@ import os
 TEST_DB = "test_database.db"
 TEST_DB_NO_SFX = TEST_DB.split('.')[0]
 TEST_WORK_DIR = "working_test"
+TEST_APPL_DIR = "applied_test"
 
 
 @pytest.fixture
@@ -20,6 +21,8 @@ def setup_test_db_and_dirs():
         os.remove(TEST_DB)
     if os.path.exists(TEST_WORK_DIR):
         shutil.rmtree(TEST_WORK_DIR)
+    if os.path.exists(TEST_APPL_DIR):
+        shutil.rmtree(TEST_APPL_DIR)
 
 
 @pytest.fixture
@@ -65,29 +68,30 @@ def test_applied_to_app_no_db_fail(capsys,
     assert exit_info.value.code == 1
 
 
-# @pytest.fixture()
-# def hide_working_apps():
-#     if os.path.exists("working"):
-#         for dir in os.listdir("working"):
-#             shutil.move("working/" + dir, "working.bak/" + dir)
-#     yield
-#     if os.path.exists("working.bak"):
-#         for dir in os.listdir("working.bak"):
-#             shutil.move("working.bak/" + dir, "working/" + dir)
-#         shutil.rmtree("working.bak")
-#
-#
-# @pytest.mark.applied_to_app
-# def test_applied_to_app_no_app_in_working_fail(capsys, hide_working_apps,
-#                                                mktmpdir_working):
-#     with pytest.raises(SystemExit) as exit_info:
-#         job_app.applied_to_app(database=TEST_DB)
-#
-#     assert "No working application" in capsys.readouterr().out
-#     assert exit_info.type == SystemExit
-#     assert exit_info.value.code == 1
-#
-#
+@pytest.fixture
+def hide_working_app():
+    app_dir = os.listdir(TEST_WORK_DIR)[0]
+    shutil.move(os.path.join(TEST_WORK_DIR, app_dir), app_dir)
+    yield
+    shutil.move(app_dir, os.path.join(TEST_WORK_DIR, app_dir))
+
+
+@pytest.mark.applied_to_app
+def test_applied_to_app_no_app_in_working_fail(capsys,
+                                               setup_test_db_and_dirs,
+                                               hide_working_app):
+    with pytest.raises(SystemExit) as exit_info:
+        test_args = "Position-at-Company-1"
+        job_app.applied_to_app(database=TEST_DB,
+                               test_args=test_args,
+                               work_dir=TEST_WORK_DIR,
+                               applied_dir=TEST_APPL_DIR)
+
+    assert "No working application" in capsys.readouterr().out
+    assert exit_info.type == SystemExit
+    assert exit_info.value.code == 1
+
+
 # @pytest.fixture()
 # def working_job_app():
 #     test_args = ["Company",
