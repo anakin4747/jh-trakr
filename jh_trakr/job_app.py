@@ -8,6 +8,8 @@ import os
 import re
 
 STD_DB = "job_apps.db"
+WORKING_DIR = "working"
+APPLIED_DIR = "applied"
 
 
 def sanitize_filename(filename):
@@ -20,7 +22,7 @@ def sanitize_filename(filename):
     return sanitized_filename
 
 
-def new_app(database=STD_DB, test_args=None):
+def new_app(database=STD_DB, test_args=None, work_dir=WORKING_DIR):
     """ Obtains job information from user """
     if test_args is None:
         company_input = input("Company: ")
@@ -67,7 +69,7 @@ def new_app(database=STD_DB, test_args=None):
     new_app_folder = sanitize_filename(
         f"{position_input}-at-{company_input}-{last_id}")
 
-    full_app_path = os.path.join("working", new_app_folder)
+    full_app_path = os.path.join(work_dir, new_app_folder)
 
     os.makedirs(full_app_path, exist_ok=True)
 
@@ -81,15 +83,18 @@ def new_app(database=STD_DB, test_args=None):
     return last_id
 
 
-def applied_to_app(database=STD_DB):
+def applied_to_app(database=STD_DB,
+                   test_args=None,
+                   work_dir=WORKING_DIR,
+                   applied_dir=APPLIED_DIR):
     """ Moves application project files to applied folder and sets status of
     app in database """
 
-    if not os.path.exists("working"):
+    if not os.path.exists(work_dir):
         print("No working directory")
         sys.exit(1)
 
-    if not os.listdir("working"):
+    if not os.listdir(work_dir):
         print("No working application")
         sys.exit(1)
 
@@ -97,7 +102,10 @@ def applied_to_app(database=STD_DB):
         print("No database file")
         sys.exit(1)
 
-    applied_app = FzfPrompt().prompt(os.listdir("working"))[0]
+    if test_args is None:
+        applied_app = FzfPrompt().prompt(os.listdir(work_dir))[0]
+    else:
+        applied_app = test_args
 
     applied_id = applied_app.split('-')[-1]
 
@@ -109,7 +117,7 @@ def applied_to_app(database=STD_DB):
 
         today = datetime.now().strftime("%B %d, %Y")
 
-        resume_path = os.path.join("applied",
+        resume_path = os.path.join(applied_dir,
                                    applied_app,
                                    f"{applied_app}.tex")
 
@@ -124,10 +132,10 @@ def applied_to_app(database=STD_DB):
         cur.execute(update_cmd)
         con.commit()
 
-    os.makedirs("applied", exist_ok=True)
+    os.makedirs(applied_dir, exist_ok=True)
 
-    shutil.move(os.path.join("working", applied_app),
-                os.path.join("applied", applied_app))
+    shutil.move(os.path.join(work_dir, applied_app),
+                os.path.join(applied_dir, applied_app))
 
 
 def rejected_from_app(database=STD_DB):
