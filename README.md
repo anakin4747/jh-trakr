@@ -9,10 +9,8 @@ migrate it into the command line.
 
 The benefits of command line workflows:
 
-    - Easier to integrate with automation tasks thanks to bash and python
-      scripts
-    - Easier to manage and integrate with my everyday command line tools vim,
-      tmux, and git
+    - Easier to integrate with automation tasks thanks to bash and python scripts
+    - Easier to manage and integrate with my everyday command line tools vim, tmux, and git
     - Fast, compared to previous database applications like Notion
     - Cool
 
@@ -21,7 +19,9 @@ folders with extra data stored in a SQLite database.
 
 ## Pytest Testing
 
-This project was prototyped in [Bash](https://github.com/anakin4747/job-hunt-workflow/) and tested using the pytest Python library.
+This project was prototyped in
+[Bash](https://github.com/anakin4747/job-hunt-workflow/) and tested using the
+pytest Python library.
 
 The unit tests are in the [tests](tests) directory. They are broken up into
 specific files for each function tested.
@@ -29,7 +29,6 @@ specific files for each function tested.
 The tests are run automatically during build as they are specified to run
 during the build target of the Makefile.
 
-## Install
 
 ## Basic Usage
 
