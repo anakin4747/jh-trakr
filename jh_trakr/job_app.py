@@ -196,6 +196,9 @@ def show_apps(opt="all", database=STD_DB):
     edit main.py to also allow for 3 args so you can run 'make show <status>'
     where <status> is job status
     """
+    if not os.path.exists(database):
+        print("No database file")
+        sys.exit(1)
 
     db_no_suffix = database.split('.')[0]
 
