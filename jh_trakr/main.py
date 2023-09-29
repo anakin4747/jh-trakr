@@ -1,26 +1,26 @@
-from .job_app import new_app, applied_to_app, rejected_from_app, show_apps
+from job_app import new_app, applied_to_app, rejected_from_app, show_apps
 import sys
 
 usage_msg = "\nChoose an option: new, applied, rejected, show\n"
 wrong_show_syntax_msg = (
     "\nshow must either be called with no arguments or with any of the "
-    "following: \n\tall, working, applied, or rejected\n"
+    "following: \n\tworking, applied, or rejected\n"
 )
 
 
 def main():
     if len(sys.argv) == 2:
 
-        if sys.argv[1] == "new":
+        if "new".startswith(sys.argv[1]):
             new_app()
 
-        elif sys.argv[1] == "applied":
+        elif "applied".startswith(sys.argv[1]):
             applied_to_app()
 
-        elif sys.argv[1] == "rejected":
+        elif "rejected".startswith(sys.argv[1]):
             rejected_from_app()
 
-        elif sys.argv[1] == "show":
+        elif "show".startswith(sys.argv[1]):
             show_apps()
 
         else:
@@ -31,11 +31,20 @@ def main():
 
         if sys.argv[1] == "show":
 
-            if sys.argv[2] not in ["all", "working", "applied", "rejected"]:
+            if "working".startswith(sys.argv[2]):
+                opt = "working"
+
+            elif "applied".startswith(sys.argv[2]):
+                opt = "applied"
+
+            elif "rejected".startswith(sys.argv[2]):
+                opt = "rejected"
+
+            else:
                 print(wrong_show_syntax_msg)
                 sys.exit(1)
 
-            show_apps(sys.argv[2])
+            show_apps(opt)
 
         else:
             print(usage_msg)

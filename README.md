@@ -97,6 +97,16 @@ database to reflect the date which you applied and the changed status.
     | 1  | Cool Company | Cool Position |      applied       | Ottawa   | ...
     +----+--------------+---------------+--------------------+----------+---
 
+You can also pass **working**, **applied**, or **rejected** to the
+**show** command.
+
+    $ jh_trakr show working
+        ...
+    $ jh_trakr show applied
+        ...
+    $ jh_trakr show rejected
+        ...
+
 The last command is **rejected** and its use should be pretty obvious. It is
 the same as **applied** except it moves the specific application folder to the
 *applied/rejected* directory.
