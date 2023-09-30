@@ -46,13 +46,13 @@ def main():
             show_apps()
 
         else:
-            print(usage_msg)
+            print(usage_msg, file=sys.stderr)
             sys.exit(1)
 
     elif len(sys.argv) == 3:
 
         if not "show".startswith(sys.argv[1]):
-            print(usage_msg)
+            print(usage_msg, file=sys.stderr)
             sys.exit(1)
 
         if "working".startswith(sys.argv[2]):
@@ -65,13 +65,13 @@ def main():
             opt = "rejected"
 
         else:
-            print(wrong_show_syntax_msg)
+            print(wrong_show_syntax_msg, file=sys.stderr)
             sys.exit(1)
 
         show_apps(opt)
 
     else:
-        print(usage_msg)
+        print(usage_msg, file=sys.stderr)
         sys.exit(1)
 
 

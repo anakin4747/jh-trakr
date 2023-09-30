@@ -42,13 +42,13 @@ def hide_applied_dir():
 
 @pytest.mark.rejected_from_app
 def test_rejected_from_app_no_applied_dir_fail(capsys,
-                                              setup_test_applied_app,
-                                              hide_applied_dir):
+                                               setup_test_applied_app,
+                                               hide_applied_dir):
     with pytest.raises(SystemExit) as exit_info:
         job_app.rejected_from_app(database=TEST_DB,
                                   applied_dir=TEST_APPL_DIR)
 
-    assert "No applied directory" in capsys.readouterr().out
+    assert "No applied directory" in capsys.readouterr().err
     assert exit_info.type == SystemExit
     assert exit_info.value.code == 1
 
@@ -70,7 +70,7 @@ def test_rejected_from_app_no_db_fail(capsys,
         job_app.rejected_from_app(database=TEST_DB,
                                   applied_dir=TEST_APPL_DIR)
 
-    assert "No database file" in capsys.readouterr().out
+    assert "No database file" in capsys.readouterr().err
     assert exit_info.type == SystemExit
     assert exit_info.value.code == 1
 
@@ -91,7 +91,7 @@ def test_rejectd_from_app_no_app_in_applied_fail(capsys,
         job_app.rejected_from_app(database=TEST_DB,
                                   applied_dir=TEST_APPL_DIR)
 
-    assert "No applied application" in capsys.readouterr().out
+    assert "No applied application" in capsys.readouterr().err
     assert exit_info.type == SystemExit
     assert exit_info.value.code == 1
 

@@ -32,17 +32,46 @@ during the build target of the Makefile.
 
 ## Basic Usage
 
+Run the program without any arguments to see the basic usage menu:
+
+    $ jh-trakr
+
+    usage: jh-trakr [new | applied | rejected | show [working | applied | rejected]]
+
+    usage: jh-trakr [n | a | r | s [w | a | r]]
+
+        jh-trakr n[ew]
+
+                Provides a prompt to enter in information about a new job application,
+                this command must be ran first to generate data which the other commands rely upon
+
+        jh-trakr a[pplied]
+
+                Allows you to select which new application you have applied for to update its status
+
+        jh-trakr r[ejected]
+
+                Allows you to select which application that you applied to has rejected you to update
+                its status
+
+        jh-trakr s[how] [w[orking] | a[pplied] | r[ejected]]
+
+                Shows all job application data unless filtered by status
+
+
 The application has 4 main commands:
 
-    jh_trakr new
-    jh_trakr applied
-    jh_trakr rejected
-    jh_trakr show
+    $ jh-trakr new
+    $ jh-trakr applied
+    $ jh-trakr rejected
+    $ jh-trakr show
+
+All commands can be abbrieviated to a single letter if desired
 
 The **new** command allows you to input information about the new job application
 to which you are applying:
 
-    $ jh_trakr new
+    $ jh-trakr new
 
     Company: Cool Company
     Position: Cool Position
@@ -64,7 +93,7 @@ document that resembles the barebones of my resume into the directory inside
 You can also query the database that was created from using the **new** command
 with the command **show**.
 
-    $ jh_trakr show
+    $ jh-trakr show
 
     +----+--------------+---------------+--------------------+----------+---
     | id |   company    |   position    | application_status | location | ...
@@ -82,14 +111,14 @@ Since this application was initially prototyped in Bash, I used the awesome
 command line fuzzy finder fzf to select which working job application you
 applied for.
 
-    $ jh_trakr applied
+    $ jh-trakr applied
 
 This command will take you to a prompt to select from the applications in the
 *working* directory. After you hit enter that project folder in the *working*
 directory is moved to the *applied* directory and data is updated in the
 database to reflect the date which you applied and the changed status.
 
-    $ jh_trakr show
+    $ jh-trakr show
 
     +----+--------------+---------------+--------------------+----------+---
     | id |   company    |   position    | application_status | location | ...
@@ -100,13 +129,17 @@ database to reflect the date which you applied and the changed status.
 You can also pass **working**, **applied**, or **rejected** to the
 **show** command.
 
-    $ jh_trakr show working
+    $ jh-trakr show working
         ...
-    $ jh_trakr show applied
+    $ jh-trakr show applied
         ...
-    $ jh_trakr show rejected
+    $ jh-trakr show rejected
         ...
 
 The last command is **rejected** and its use should be pretty obvious. It is
 the same as **applied** except it moves the specific application folder to the
 *applied/rejected* directory.
+
+Note that the commands **applied** and **rejected** rely on the fzf command
+line tool. If this is not installed these commands will error out with
+instructions for installing fzf.

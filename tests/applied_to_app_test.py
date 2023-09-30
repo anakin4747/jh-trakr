@@ -40,7 +40,7 @@ def test_applied_to_app_no_working_dir_fail(capsys,
     with pytest.raises(SystemExit) as exit_info:
         job_app.applied_to_app(work_dir=TEST_WORK_DIR)
 
-    assert "No working directory" in capsys.readouterr().out
+    assert "No working directory" in capsys.readouterr().err
     assert exit_info.type == SystemExit
     assert exit_info.value.code == 1
 
@@ -62,7 +62,7 @@ def test_applied_to_app_no_db_fail(capsys,
         job_app.applied_to_app(database=TEST_DB,
                                work_dir=TEST_WORK_DIR)
 
-    assert "No database file" in capsys.readouterr().out
+    assert "No database file" in capsys.readouterr().err
     assert exit_info.type == SystemExit
     assert exit_info.value.code == 1
 
@@ -83,7 +83,7 @@ def test_applied_to_app_no_app_in_working_fail(capsys,
         job_app.applied_to_app(database=TEST_DB,
                                work_dir=TEST_WORK_DIR)
 
-    assert "No working application" in capsys.readouterr().out
+    assert "No working application" in capsys.readouterr().err
     assert exit_info.type == SystemExit
     assert exit_info.value.code == 1
 

@@ -34,5 +34,5 @@ clean:
 
 super-clean:
 	rm -rf build dist $(PROJ).egg-info requirements.txt \
-		__pycache__ $(PROJ)/__pycache__ tests/__pycache__
+		__pycache__ $(PROJ)/__pycache__ tests/__pycache__ \
 		applied working job_apps.db

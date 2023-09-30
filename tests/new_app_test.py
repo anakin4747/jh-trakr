@@ -41,7 +41,8 @@ def test_new_app_creates_dirs(cleanup_test_db):
                          work_dir=TEST_WORK_DIR)
 
     assert os.path.exists(TEST_WORK_DIR)
-    assert os.path.exists(os.path.join(TEST_WORK_DIR, f"Position-at-Company-{id}"))
+    assert os.path.exists(os.path.join(TEST_WORK_DIR,
+                                       f"Position-at-Company-{id}"))
 
 
 @pytest.mark.new_app

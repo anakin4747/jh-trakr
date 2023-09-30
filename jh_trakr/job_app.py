@@ -12,6 +12,16 @@ WORKING_DIR = "working"
 APPLIED_DIR = "applied"
 REJ_DIR = os.path.join(APPLIED_DIR, "rejected")
 
+no_fzf_err_msg = (
+    "\nCannot find fzf\n\n"
+    "\tThis project relies on your system having fzf\n\n"
+    "\tPlease install fzf for this application to function correctly\n\n"
+    "Linux:\n\tapt install fzf\n\n"
+    "MacOS:\n\tbrew install fzf\n\n"
+    "Windows:\n\tchoco install fzf\n\n"
+    "GitHub:\n\thttps://github.com/junegunn/fzf\n\n"
+)
+
 
 def sanitize_filename(filename):
     """ Pattern to catch illegal filename characters """
@@ -93,20 +103,28 @@ def applied_to_app(database=STD_DB, test_args=None,
 
     # Check files exist to ensure there is a working application
     if not os.path.exists(work_dir):
-        print("No working directory - Try calling 'jh-trakr new' first")
+        print("\nNo working directory - Try calling 'jh-trakr new' first\n",
+              file=sys.stderr)
         sys.exit(1)
 
     if not os.listdir(work_dir):
-        print("No working application - Try calling 'jh-trakr new' first")
+        print("\nNo working application - Try calling 'jh-trakr new' first\n",
+              file=sys.stderr)
         sys.exit(1)
 
     if not os.path.exists(database):
-        print("No database file - Try calling 'jh-trakr new' first")
+        print("\nNo database file - Try calling 'jh-trakr new' first\n",
+              file=sys.stderr)
         sys.exit(1)
 
     if test_args is None:
         # Prompt user to select application folder which they applied for
-        applied_app = FzfPrompt().prompt(os.listdir(work_dir))[0]
+        try:
+            applied_app = FzfPrompt().prompt(os.listdir(work_dir))[0]
+        except SystemError:
+            print(no_fzf_err_msg, file=sys.stderr)
+            sys.exit(1)
+
     else:
         # Get around fzf prompt in testing
         applied_app = test_args
@@ -148,24 +166,28 @@ def rejected_from_app(database=STD_DB, test_args=None,
 
     # Check files exist to ensure there is an applied application
     if not os.path.exists(applied_dir):
-        print("No applied directory - Try calling 'jh-trakr new && jh-trakr"
-              "applied' first")
+        print("\nNo applied directory - Try calling 'jh-trakr new && jh-trakr"
+              " applied' first\n", file=sys.stderr)
         sys.exit(1)
 
     if not os.listdir(applied_dir):
-        print("No applied application - Try calling 'jh-trakr new && jh-trakr"
-              "applied' first")
+        print("\nNo applied application - Try calling 'jh-trakr new &&"
+              " jh-trakr applied' first\n", file=sys.stderr)
         sys.exit(1)
 
     if not os.path.exists(database):
-        print("No database file - Try calling 'jh-trakr new && jh-trakr"
-              "applied' first")
+        print("\nNo database file - Try calling 'jh-trakr new && jh-trakr"
+              " applied' first\n", file=sys.stderr)
 
         sys.exit(1)
 
     if test_args is None:
         # Prompt user to select application folder which they got rejected from
-        rejected_app = FzfPrompt().prompt(os.listdir(applied_dir))[0]
+        try:
+            rejected_app = FzfPrompt().prompt(os.listdir(applied_dir))[0]
+        except SystemError:
+            print(no_fzf_err_msg, file=sys.stderr)
+            sys.exit(1)
     else:
         # Get around fzf prompt in testing
         rejected_app = test_args
@@ -205,7 +227,8 @@ def show_apps(opt="all", database=STD_DB):
     where <status> is job status
     """
     if not os.path.exists(database):
-        print("No database file - Try calling 'jh-trakr new' first")
+        print("\nNo database file - Try calling 'jh-trakr new' first\n",
+              file=sys.stderr)
         sys.exit(1)
 
     db_no_suffix = database.split('.')[0]
