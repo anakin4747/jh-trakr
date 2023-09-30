@@ -11,7 +11,7 @@ def test_no_args():
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE,
                          text=True)
-    assert "Choose an option:" in res.stdout
+    assert "usage" in res.stdout
     assert res.returncode == 1
 
 
@@ -21,7 +21,7 @@ def test_invalid_2nd_arg():
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE,
                          text=True)
-    assert "Choose an option:" in res.stdout
+    assert "usage" in res.stdout
     assert res.returncode == 1
 
 
@@ -31,5 +31,5 @@ def test_invalid_3rd_arg():
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE,
                          text=True)
-    assert "show must either" in res.stdout
+    assert "show usage" in res.stdout
     assert res.returncode == 1

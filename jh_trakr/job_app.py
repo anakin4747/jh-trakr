@@ -93,15 +93,15 @@ def applied_to_app(database=STD_DB, test_args=None,
 
     # Check files exist to ensure there is a working application
     if not os.path.exists(work_dir):
-        print("No working directory")
+        print("No working directory - Try calling 'jh-trakr new' first")
         sys.exit(1)
 
     if not os.listdir(work_dir):
-        print("No working application")
+        print("No working application - Try calling 'jh-trakr new' first")
         sys.exit(1)
 
     if not os.path.exists(database):
-        print("No database file")
+        print("No database file - Try calling 'jh-trakr new' first")
         sys.exit(1)
 
     if test_args is None:
@@ -148,15 +148,19 @@ def rejected_from_app(database=STD_DB, test_args=None,
 
     # Check files exist to ensure there is an applied application
     if not os.path.exists(applied_dir):
-        print("No applied directory")
+        print("No applied directory - Try calling 'jh-trakr new && jh-trakr"
+              "applied' first")
         sys.exit(1)
 
     if not os.listdir(applied_dir):
-        print("No applied application")
+        print("No applied application - Try calling 'jh-trakr new && jh-trakr"
+              "applied' first")
         sys.exit(1)
 
     if not os.path.exists(database):
-        print("No database file")
+        print("No database file - Try calling 'jh-trakr new && jh-trakr"
+              "applied' first")
+
         sys.exit(1)
 
     if test_args is None:
@@ -201,7 +205,7 @@ def show_apps(opt="all", database=STD_DB):
     where <status> is job status
     """
     if not os.path.exists(database):
-        print("No database file")
+        print("No database file - Try calling 'jh-trakr new' first")
         sys.exit(1)
 
     db_no_suffix = database.split('.')[0]
