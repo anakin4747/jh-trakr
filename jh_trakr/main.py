@@ -1,4 +1,4 @@
-from job_app import new_app, applied_to_app, rejected_from_app, show_apps
+from job_app import (new_app, applied_to_app, rejected_from_app, show_apps)
 import sys
 
 usage_msg = "\nChoose an option: new, applied, rejected, show\n"
@@ -29,26 +29,24 @@ def main():
 
     elif len(sys.argv) == 3:
 
-        if sys.argv[1] == "show":
-
-            if "working".startswith(sys.argv[2]):
-                opt = "working"
-
-            elif "applied".startswith(sys.argv[2]):
-                opt = "applied"
-
-            elif "rejected".startswith(sys.argv[2]):
-                opt = "rejected"
-
-            else:
-                print(wrong_show_syntax_msg)
-                sys.exit(1)
-
-            show_apps(opt)
-
-        else:
+        if sys.argv[1] != "show":
             print(usage_msg)
             sys.exit(1)
+
+        if "working".startswith(sys.argv[2]):
+            opt = "working"
+
+        elif "applied".startswith(sys.argv[2]):
+            opt = "applied"
+
+        elif "rejected".startswith(sys.argv[2]):
+            opt = "rejected"
+
+        else:
+            print(wrong_show_syntax_msg)
+            sys.exit(1)
+
+        show_apps(opt)
 
     else:
         print(usage_msg)

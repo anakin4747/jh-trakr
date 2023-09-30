@@ -79,6 +79,7 @@ def new_app(database=STD_DB, test_args=None, work_dir=WORKING_DIR) -> int:
 
     # Copy resume template to new application folder
     resume_template_path = "template/resume.tex"
+    # NOT PORTABLE - also errors out if missing so fix that
     dest_app_resume = os.path.join(full_app_path, f"{title}.tex")
     shutil.copyfile(resume_template_path, dest_app_resume)
 

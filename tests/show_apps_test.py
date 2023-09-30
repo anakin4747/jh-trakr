@@ -1,5 +1,4 @@
 import jh_trakr.job_app as job_app
-import sqlite3
 import pytest
 
 

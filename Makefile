@@ -1,39 +1,38 @@
+PROJ = jh_trakr
+
 new:
-	python3 jh_trakr/main.py new
+	python3 $(PROJ)/main.py new
 
 app:
-	python3 jh_trakr/main.py applied
+	python3 $(PROJ)/main.py applied
 
 rej:
-	python3 jh_trakr/main.py rejected
+	python3 $(PROJ)/main.py rejected
 
 show:
-	python3 jh_trakr/main.py show
+	python3 $(PROJ)/main.py show
 
 show-working:
-	python3 jh_trakr/main.py show working
+	python3 $(PROJ)/main.py show working
 
 show-applied:
-	python3 jh_trakr/main.py show applied
+	python3 $(PROJ)/main.py show applied
 
 show-rejected:
-	python3 jh_trakr/main.py show rejected
+	python3 $(PROJ)/main.py show rejected
 
 test:
 	pytest -v
-
-freeze:
-	pip3 freeze --all > requirements.txt
-
-install: requirements.txt
-	pip3 install -r requirements.txt
 
 build: setup.py test
 	python3 setup.py build bdist_wheel
 
 clean:
-	rm -rf build dist jh_trakr.egg-info requirements.txt
+	rm -rf build dist $(PROJ)/$(PROJ).egg-info requirements.txt \
+		__pycache__ $(PROJ)/__pycache__ tests/__pycache__
+
 
 super-clean:
-	rm -rf build dist jh_trakr.egg-info requirements.txt \
+	rm -rf build dist $(PROJ).egg-info requirements.txt \
+		__pycache__ $(PROJ)/__pycache__ tests/__pycache__
 		applied working job_apps.db
