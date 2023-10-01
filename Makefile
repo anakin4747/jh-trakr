@@ -4,7 +4,8 @@ CLI = jh-trakr
 build: setup.py
 	python3 setup.py build bdist_wheel
 
-install: build
+install: build requirements.txt
+	pip3 install -r requirements.txt 
 	pip3 install dist/*.whl
 
 uninstall:
