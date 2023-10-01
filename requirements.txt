@@ -1,4 +1,3 @@
-jh-trakr @ file:///Users/kin/projects/py/jh_trakr/dist/jh_trakr-0.1.0-py3-none-any.whl#sha256=6fdecb8d98521e440ef2726093b25431b53390f2e2139c4f04c2cd38d6cf304a
 pip==23.2.1
 pyfzf==0.3.1
 setuptools==68.1.2
