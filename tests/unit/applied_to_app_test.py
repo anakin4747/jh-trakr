@@ -1,4 +1,4 @@
-from jh_trakr.job_app import new_app, applied_to_app
+from jh_trakr.job_app import applied_to_app
 import pytest
 import shutil
 import os
@@ -16,26 +16,6 @@ TEST_APPL_DIR = "applied_test"
 
 
 @pytest.fixture
-def setup_test_new_app():
-    """ Run new_app so that a db and application exists """
-
-    """ Improvements
-        - Shares teardown logic of clean_up_db fixture in new_app_test
-        - Refactor test_args so that it can be parameterized and ran with data
-          from the faker module
-    """
-    test_args = ["Company", "Position", "Location", "URL"]
-    new_app(database=TEST_DB, test_args=test_args, work_dir=TEST_WORK_DIR)
-    yield
-    if os.path.exists(TEST_APPL_DIR):
-        shutil.rmtree(TEST_APPL_DIR)
-
-    # Duplicate logic in clean_up_db in new_app_test
-    shutil.rmtree(TEST_WORK_DIR)
-    os.remove(TEST_DB)
-
-
-@pytest.fixture
 def hide_working_dir():
     """ Hides "working" directory to ensure error is caught """
     """ Improvements
@@ -48,6 +28,7 @@ def hide_working_dir():
 
 @pytest.mark.applied_to_app
 def test_applied_to_app_no_working_dir_fail(capsys,
+                                            cleanup_test_db,
                                             setup_test_new_app,
                                             hide_working_dir):
     """ Tests that if there is no "working" directory the program errors out
@@ -73,6 +54,7 @@ def hide_database():
 
 @pytest.mark.applied_to_app
 def test_applied_to_app_no_db_fail(capsys,
+                                   cleanup_test_db,
                                    setup_test_new_app,
                                    hide_database):
     """ Tests that if there is no database the program errors out with the
@@ -100,6 +82,7 @@ def hide_working_app():
 
 @pytest.mark.applied_to_app
 def test_applied_to_app_no_app_in_working_fail(capsys,
+                                               cleanup_test_db,
                                                setup_test_new_app,
                                                hide_working_app):
     """ Tests that if there is no application directory in the working folder
@@ -113,7 +96,7 @@ def test_applied_to_app_no_app_in_working_fail(capsys,
 
 
 @pytest.mark.applied_to_app
-def test_applied_to_app_creates_dirs(setup_test_new_app):
+def test_applied_to_app_creates_dirs(cleanup_test_db, setup_test_new_app):
     """ Tests that applied_to_app creates applied directory """
 
     """ Improvements
@@ -131,7 +114,7 @@ def test_applied_to_app_creates_dirs(setup_test_new_app):
 
 
 @pytest.mark.applied_to_app
-def test_applied_to_app_successful_mv(setup_test_new_app):
+def test_applied_to_app_successful_mv(cleanup_test_db, setup_test_new_app):
     """ Tests that applied_to_app successfully moved application folder from
     working to applied """
 

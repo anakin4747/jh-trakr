@@ -1,25 +1,12 @@
 from jh_trakr.job_app import new_app, sanitize_filename
 import pytest
 import sqlite3
-import shutil
 import os
 
 
 TEST_DB = "test_database.db"
 TEST_DB_NO_SFX = TEST_DB.split('.')[0]
 TEST_WORK_DIR = "working_test"
-
-
-@pytest.fixture
-def cleanup_test_db():
-    """ Removes db file created from new_app calls """
-    """ Improvements
-        - Could probably be shared with other fixtures and stacked so that this
-          logic isn't repeated
-    """
-    yield
-    shutil.rmtree(TEST_WORK_DIR)
-    os.remove(TEST_DB)
 
 
 @pytest.mark.new_app

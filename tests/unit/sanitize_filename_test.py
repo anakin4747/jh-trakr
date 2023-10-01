@@ -8,7 +8,5 @@ illegal_chars = ["\\", "/", ":", "\"", "*", "?", "<", ">",
 @pytest.mark.sanitize_filename
 @pytest.mark.parametrize('illegal_char', illegal_chars)
 def test_sanitize_filename(illegal_char):
-
     res = sanitize_filename(illegal_char)
-
     assert res == "_"

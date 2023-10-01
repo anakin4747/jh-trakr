@@ -1,5 +1,4 @@
-from jh_trakr.job_app import (new_app, applied_to_app,
-                              rejected_from_app, sanitize_filename)
+from jh_trakr.job_app import rejected_from_app
 import pytest
 import shutil
 import os
@@ -18,33 +17,6 @@ TEST_REJ_DIR = os.path.join(TEST_APPL_DIR, "rejected_test")
 
 
 @pytest.fixture
-def setup_test_applied_app():
-    """ Run new_app and applied_to_app so that a db and application exists """
-
-    """ Improvements
-        - Shares teardown logic of clean_up_db fixture in new_app_test
-        - Shares setup/teardown logic of setup_test_new_app fixture in
-          new_app_test
-        - Refactor test_args so that it can be parameterized and ran with data
-          from the faker module
-        - Figure out how to remove the hard coded id of 1 in applied_to_app
-    """
-    test_args = ["Company", "Position", "Location", "URL"]
-    new_app(database=TEST_DB, test_args=test_args, work_dir=TEST_WORK_DIR)
-
-    title = sanitize_filename(f"{test_args[1]}-at-{test_args[0]}")
-    applied_to_app(database=TEST_DB, test_args=f"{title}-1",
-                   work_dir=TEST_WORK_DIR, applied_dir=TEST_APPL_DIR)
-    yield
-    if os.path.exists(TEST_REJ_DIR):
-        shutil.rmtree(TEST_REJ_DIR)
-    if os.path.exists(TEST_APPL_DIR):
-        shutil.rmtree(TEST_APPL_DIR)
-    shutil.rmtree(TEST_WORK_DIR)
-    os.remove(TEST_DB)
-
-
-@pytest.fixture
 def hide_applied_dir():
     """ Hides "applied" directory to ensure error is caught """
     """ Improvements
@@ -58,6 +30,8 @@ def hide_applied_dir():
 
 @pytest.mark.rejected_from_app
 def test_rejected_from_app_no_applied_dir_fail(capsys,
+                                               cleanup_test_db,
+                                               setup_test_new_app,
                                                setup_test_applied_app,
                                                hide_applied_dir):
     """ Tests that if there is no application directory the program errors out 
@@ -80,6 +54,8 @@ def hide_database():
 
 @pytest.mark.rejected_from_app
 def test_rejected_from_app_no_db_fail(capsys,
+                                      cleanup_test_db,
+                                      setup_test_new_app,
                                       setup_test_applied_app,
                                       hide_database):
     """ Tests that if there is no database the program errors out with the
@@ -106,6 +82,8 @@ def hide_applied_app():
 
 @pytest.mark.rejected_from_app
 def test_rejectd_from_app_no_app_in_applied_fail(capsys,
+                                                 cleanup_test_db,
+                                                 setup_test_new_app,
                                                  setup_test_applied_app,
                                                  hide_applied_app):
     """ Tests that if there is no application directory in the applied folder
@@ -119,7 +97,9 @@ def test_rejectd_from_app_no_app_in_applied_fail(capsys,
 
 
 @pytest.mark.rejected_from_app
-def test_rejected_from_app_creates_dirs(setup_test_applied_app):
+def test_rejected_from_app_creates_dirs(cleanup_test_db,
+                                        setup_test_new_app,
+                                        setup_test_applied_app):
     """ Tests that rejected_from_app creates rejected directory """
 
     """ Improvements
@@ -137,7 +117,9 @@ def test_rejected_from_app_creates_dirs(setup_test_applied_app):
 
 
 @pytest.mark.rejected_from_app
-def test_rejected_from_app_successful_mv(setup_test_applied_app):
+def test_rejected_from_app_successful_mv(cleanup_test_db,
+                                         setup_test_new_app,
+                                         setup_test_applied_app):
     """ Tests that rejected_from_app successfully moved application folder from
     applied to rejected """
 
