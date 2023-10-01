@@ -22,6 +22,9 @@ This project was prototyped in Bash. Checkout the original version [here](https:
 
 ## Installation
 
+The build process and application depends on: make, pip3, and fzf
+ensure these are installed before following the installation.
+
 To install everything in this repo:
 
     - Clone this repo
@@ -39,6 +42,9 @@ To install everything in this repo:
     - Test that it installed
 
     $ jh-trakr
+
+The install make target will install the build dependancies for generating a
+wheel file and pytest.
 
 Since this was initially written in bash it used the incredible command line
 fuzzy finder, fzf. So this version also uses it and core features rely on it
