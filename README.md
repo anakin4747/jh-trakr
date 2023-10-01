@@ -25,6 +25,9 @@ This project was prototyped in Bash. Checkout the original version [here](https:
 The build process and application depends on: make, pip3, and fzf
 ensure these are installed before following the installation.
 
+This project was only ever intended for use in a UNIX environment so its highly
+unlikely this will install or work on Windows.
+
 To install everything in this repo:
 
     - Clone this repo
