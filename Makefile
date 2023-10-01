@@ -1,4 +1,4 @@
-PROJ = jh_trakr
+PROJ = src/jh_trakr
 
 new:
 	python3 $(PROJ)/main.py new

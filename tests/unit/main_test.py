@@ -3,7 +3,7 @@ import pytest
 
 """ These tests test command line arguments """
 
-PROG = "python3 jh_trakr/main.py"
+PROG = "python3 src/jh_trakr/main.py"
 
 
 def run(program, args):
