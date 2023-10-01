@@ -1,38 +1,21 @@
-PROJ = src/jh_trakr
+PROJ = jh_trakr
+CLI = jh-trakr
 
-new:
-	python3 $(PROJ)/main.py new
+build: setup.py
+	python3 setup.py build bdist_wheel
 
-app:
-	python3 $(PROJ)/main.py applied
+install: build
+	pip3 install dist/*.whl
 
-rej:
-	python3 $(PROJ)/main.py rejected
-
-show:
-	python3 $(PROJ)/main.py show
-
-show-working:
-	python3 $(PROJ)/main.py show working
-
-show-applied:
-	python3 $(PROJ)/main.py show applied
-
-show-rejected:
-	python3 $(PROJ)/main.py show rejected
+uninstall:
+	pip3 uninstall $(CLI)
 
 test:
 	pytest -v
 
-build: setup.py test
-	python3 setup.py build bdist_wheel
-
 clean:
-	rm -rf build dist $(PROJ)/$(PROJ).egg-info requirements.txt \
-		__pycache__ $(PROJ)/__pycache__ tests/__pycache__
+	rm -rf build dist src/$(PROJ).egg-info
+	find . -type d -name '__pycache__' -exec rm -r {} \;
 
-
-super-clean:
-	rm -rf build dist $(PROJ).egg-info requirements.txt \
-		__pycache__ $(PROJ)/__pycache__ tests/__pycache__ \
-		applied working job_apps.db
+super-clean: clean
+	rm -rf applied working job_apps.db
