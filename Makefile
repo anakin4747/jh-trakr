@@ -1,7 +1,7 @@
 PROJ = jh_trakr
 CLI = jh-trakr
 
-build: setup.py uninstall
+build: setup.py
 	python3 setup.py build bdist_wheel
 
 install: build
