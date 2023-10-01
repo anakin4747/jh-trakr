@@ -38,10 +38,10 @@ def new_app(database=STD_DB, test_args=None, work_dir=WORKING_DIR) -> int:
     the working directory and updates the database to reflect the status """
 
     if test_args is None:
-        company_input = input("Company: ")
-        position_input = input("Position: ")
-        location_input = input("Location: ")
-        url_input = input("URL: ")
+        company_input = input("Company: ").rstrip()
+        position_input = input("Position: ").rstrip()
+        location_input = input("Location: ").rstrip()
+        url_input = input("URL: ").rstrip()
     else:
         # For testing to get around input() function
         company_input, position_input, location_input, url_input = test_args
