@@ -1,4 +1,4 @@
-import jh_trakr.job_app as job_app
+from jh_trakr.job_app import sanitize_filename
 import pytest
 
 illegal_chars = ["\\", "/", ":", "\"", "*", "?", "<", ">",
@@ -9,6 +9,6 @@ illegal_chars = ["\\", "/", ":", "\"", "*", "?", "<", ">",
 @pytest.mark.parametrize('illegal_char', illegal_chars)
 def test_sanitize_filename(illegal_char):
 
-    res = job_app.sanitize_filename(illegal_char)
+    res = sanitize_filename(illegal_char)
 
     assert res == "_"

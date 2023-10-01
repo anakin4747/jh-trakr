@@ -1,0 +1,57 @@
+
+Near duplicate tests
+- applied_to_app_test.py
+    - test_applied_to_app_no_db_fail
+    - test_applied_to_app_no_working_dir_fail
+    - test_applied_to_app_no_app_in_working_fail
+- rejected_from_app_test.py
+    - test_rejected_from_app_no_applied_dir_fail
+    - test_rejected_from_app_no_db_fail
+    - test_rejectd_from_app_no_app_in_applied_fail
+- show_apps_test.py
+    - test_show_apps_no_db_fail
+
+- applied_to_app_test.py
+    - test_applied_to_app_creates_dirs
+- rejected_from_app_test.py
+    - test_rejected_from_app_creates_dirs
+
+- applied_to_app_test.py
+    - test_applied_to_app_successful_mv
+- rejected_from_app_test.py
+    - test_rejected_from_app_successful_mv
+
+Duplicate fixtures
+- applied_to_app_test.py
+    - hide_database
+- rejected_from_app_test.py
+    - hide_database
+
+- applied_to_app_test.py
+    - hide_working_app
+- rejected_from_app_test.py
+    - hide_applied_app
+
+Near duplicate fixtures
+- applied_to_app_test.py
+    - hide_working_dir
+    - hide_database
+- rejected_from_app_test.py
+    - hide_applied_dir
+    - hide_database
+
+Overlapping fixtures
+- rejected_from_app_test.py
+    - setup_test_applied_app
+- applied_to_app_test.py
+    - setup_test_new_app
+- new_app_test.py
+    - cleanup_test_db
+
+Tests to add
+- applied_to_app_test.py
+    - fzf_test
+    - correct_db_entry_test (see test_new_app_correct_db_entry)
+- rejected_from_app_test.py
+    - fzf_test
+    - correct_db_entry_test (see test_new_app_correct_db_entry)
