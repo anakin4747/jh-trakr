@@ -1,0 +1,32 @@
+
+- Add install instructions in README
+
+- Refactor tests
+    - rename tests to have better titles
+    - Learn how to use faker package for runnings parameterized test data
+    - Add fzf tests for applied and rejected cases
+    - Parameterize all tests
+
+- Refactor code
+    - Add a way to config directories, maybe read from a config file
+    - Have the database in an application directory instead of the working
+      directory to feel more professional
+    - Figure out a pleasant way for a user to locate the folders instead of
+      just in the folder they install it in
+
+Done
+- Fix build system
+    - Figure out how to properly disribute project with dependancies (oh wait
+      just maybe dont and have them pip install -r req.txt)
+    - Figure out how modules fucking work
+- Trim trailing whitespace from inputs or else it gets replaced by an _
+
+- Add docstrings or comments
+- Update usage messages
+
+- Update README.md
+    - Explain dependancy on fzf
+    - Explain shortcuts to commands
+
+- test if fzf is installed on their machine so you can have helpful error
+  message instead of a crash

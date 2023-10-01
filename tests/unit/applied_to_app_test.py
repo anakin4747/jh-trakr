@@ -28,7 +28,6 @@ def hide_working_dir():
 
 @pytest.mark.applied_to_app
 def test_applied_to_app_no_working_dir_fail(capsys,
-                                            cleanup_test_db,
                                             setup_test_new_app,
                                             hide_working_dir):
     """ Tests that if there is no "working" directory the program errors out
@@ -41,20 +40,8 @@ def test_applied_to_app_no_working_dir_fail(capsys,
     assert exit_info.value.code == 1
 
 
-@pytest.fixture
-def hide_database():
-    """ Hides database to ensure error is caught """
-    """ Improvements
-        - Shadows logic in hide_working_dir, could this be joined?
-    """
-    shutil.move(TEST_DB, TEST_DB + ".bak")
-    yield
-    shutil.move(TEST_DB + ".bak", TEST_DB)
-
-
 @pytest.mark.applied_to_app
 def test_applied_to_app_no_db_fail(capsys,
-                                   cleanup_test_db,
                                    setup_test_new_app,
                                    hide_database):
     """ Tests that if there is no database the program errors out with the
@@ -82,7 +69,6 @@ def hide_working_app():
 
 @pytest.mark.applied_to_app
 def test_applied_to_app_no_app_in_working_fail(capsys,
-                                               cleanup_test_db,
                                                setup_test_new_app,
                                                hide_working_app):
     """ Tests that if there is no application directory in the working folder
@@ -96,7 +82,7 @@ def test_applied_to_app_no_app_in_working_fail(capsys,
 
 
 @pytest.mark.applied_to_app
-def test_applied_to_app_creates_dirs(cleanup_test_db, setup_test_new_app):
+def test_applied_to_app_creates_dirs(setup_test_new_app):
     """ Tests that applied_to_app creates applied directory """
 
     """ Improvements
@@ -114,7 +100,7 @@ def test_applied_to_app_creates_dirs(cleanup_test_db, setup_test_new_app):
 
 
 @pytest.mark.applied_to_app
-def test_applied_to_app_successful_mv(cleanup_test_db, setup_test_new_app):
+def test_applied_to_app_successful_mv(setup_test_new_app):
     """ Tests that applied_to_app successfully moved application folder from
     working to applied """
 

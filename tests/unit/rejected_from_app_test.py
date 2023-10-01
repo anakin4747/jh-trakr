@@ -30,11 +30,9 @@ def hide_applied_dir():
 
 @pytest.mark.rejected_from_app
 def test_rejected_from_app_no_applied_dir_fail(capsys,
-                                               cleanup_test_db,
-                                               setup_test_new_app,
                                                setup_test_applied_app,
                                                hide_applied_dir):
-    """ Tests that if there is no application directory the program errors out 
+    """ Tests that if there is no application directory the program errors out
     with the correct error message """
     with pytest.raises(SystemExit) as exit_info:
         rejected_from_app(database=TEST_DB, applied_dir=TEST_APPL_DIR)
@@ -44,18 +42,8 @@ def test_rejected_from_app_no_applied_dir_fail(capsys,
     assert exit_info.value.code == 1
 
 
-@pytest.fixture
-def hide_database():
-    """ duplicate from applied_to_app_test """
-    shutil.move(TEST_DB, TEST_DB + ".bak")
-    yield
-    shutil.move(TEST_DB + ".bak", TEST_DB)
-
-
 @pytest.mark.rejected_from_app
 def test_rejected_from_app_no_db_fail(capsys,
-                                      cleanup_test_db,
-                                      setup_test_new_app,
                                       setup_test_applied_app,
                                       hide_database):
     """ Tests that if there is no database the program errors out with the
@@ -82,8 +70,6 @@ def hide_applied_app():
 
 @pytest.mark.rejected_from_app
 def test_rejectd_from_app_no_app_in_applied_fail(capsys,
-                                                 cleanup_test_db,
-                                                 setup_test_new_app,
                                                  setup_test_applied_app,
                                                  hide_applied_app):
     """ Tests that if there is no application directory in the applied folder
@@ -97,9 +83,7 @@ def test_rejectd_from_app_no_app_in_applied_fail(capsys,
 
 
 @pytest.mark.rejected_from_app
-def test_rejected_from_app_creates_dirs(cleanup_test_db,
-                                        setup_test_new_app,
-                                        setup_test_applied_app):
+def test_rejected_from_app_creates_dirs(setup_test_applied_app):
     """ Tests that rejected_from_app creates rejected directory """
 
     """ Improvements
@@ -117,9 +101,7 @@ def test_rejected_from_app_creates_dirs(cleanup_test_db,
 
 
 @pytest.mark.rejected_from_app
-def test_rejected_from_app_successful_mv(cleanup_test_db,
-                                         setup_test_new_app,
-                                         setup_test_applied_app):
+def test_rejected_from_app_successful_mv(setup_test_applied_app):
     """ Tests that rejected_from_app successfully moved application folder from
     applied to rejected """
 

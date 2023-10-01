@@ -17,17 +17,60 @@ The benefits of command line workflows:
 This Python command line app allows me to keep track of job applications in
 folders with extra data stored in a SQLite database.
 
+This project was prototyped in Bash. Checkout the original version [here](https://github.com/anakin4747/job-hunt-workflow/).
+
+
+## Installation
+
+To install everything in this repo:
+
+    - Clone this repo
+
+    $ git clone https://github.com/anakin4747/jh-trakr.git
+
+    - Change into the directory
+
+    $ cd jh-trakr
+
+    - Run make install
+
+    $ make install
+
+    - Test that it installed
+
+    $ jh-trakr
+
+Since this was initially written in bash it used the incredible command line
+fuzzy finder, fzf. So this version also uses it and core features rely on it
+being installed on your system.
+
+See [fzf](https://github.com/junegunn/fzf) for installation of fzf.
+
+
 ## Pytest Testing
 
-This project was prototyped in
-[Bash](https://github.com/anakin4747/job-hunt-workflow/) and tested using the
-pytest Python library.
+To run the current unit tests, follow the above installation steps for the full
+install to ensure the tests were installed, then run pytest or the make target
+test:
 
-The unit tests are in the [tests](tests) directory. They are broken up into
-specific files for each function tested.
+    $ pytest
 
-The tests are run automatically during build as they are specified to run
-during the build target of the Makefile.
+    or
+
+    $ make test
+
+The unit tests are in the [tests/unit](tests/unit) directory. They are broken
+up into specific files for each function tested.
+
+Custom pytest fixtures for this project can be found in [tests/conftest.py](tests/conftest.py)
+
+I plan on parameterizing most of the tests to reduce repeated functionality and
+to allow for easy integration with the faker module so that I can run the tests
+with an arbitrary amount of data.
+
+So far most key functionalities are covered with the tests.
+
+I do plan on also writing functional tests when I can.
 
 
 ## Basic Usage

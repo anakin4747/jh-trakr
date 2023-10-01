@@ -7,10 +7,12 @@ import sys
 import os
 import re
 
+
 STD_DB = "job_apps.db"
 WORKING_DIR = "working"
 APPLIED_DIR = "applied"
 REJ_DIR = os.path.join(APPLIED_DIR, "rejected")
+
 
 no_fzf_err_msg = (
     "\nCannot find fzf\n\n"
@@ -38,9 +40,9 @@ def new_app(database=STD_DB, test_args=None, work_dir=WORKING_DIR) -> int:
     the working directory and updates the database to reflect the status """
 
     if test_args is None:
-        company_input = input("Company: ").rstrip()
-        position_input = input("Position: ").rstrip()
-        location_input = input("Location: ").rstrip()
+        company_input = input("Company: ").lstrip().rstrip()
+        position_input = input("Position: ").lstrip().rstrip()
+        location_input = input("Location: ").lstrip().rstrip()
         url_input = input("URL: ").rstrip()
     else:
         # For testing to get around input() function

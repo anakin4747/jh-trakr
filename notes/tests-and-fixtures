@@ -1,0 +1,65 @@
+
+Test structure
+
+Maybe create like 100 new entries for a session
+Have half of them get applied for the sesssion
+Have half of those get rejected for the session
+
+
+Fixtures
+
+    Done, still need refactoring with faker module
+        new_app_test.py:def cleanup_test_db():
+        applied_to_app_test.py:def setup_test_new_app():
+        rejected_from_app_test.py:def setup_test_applied_app():
+
+These can be made into one test - hide_file()
+You will probably have to sort it so that the tests which tests that errors are
+raised from missing files will have to be parameterized to get the desired
+effect
+    conftest.py:def hide_database():
+    applied_to_app_test.py:def hide_working_dir():
+    rejected_from_app_test.py:def hide_applied_dir():
+
+These can be made into another - hide_nested_file()
+    applied_to_app_test.py:def hide_working_app():
+    rejected_from_app_test.py:def hide_applied_app():
+
+Tests
+
+new_app_test.py:def test_new_app_creates_db(cleanup_test_db):
+new_app_test.py:def test_new_app_creates_dirs(cleanup_test_db):
+applied_to_app_test.py:def test_applied_to_app_creates_dirs(setup_test_new_app):
+rejected_from_app_test.py:def test_rejected_from_app_creates_dirs(setup_test_applied_app):
+
+You will probably have to sort it so that the tests which tests that errors are
+raised from missing files will have to be parameterized to get the desired
+effect
+applied_to_app_test.py:def test_applied_to_app_no_working_dir_fail(capsys,
+rejected_from_app_test.py:def test_rejected_from_app_no_applied_dir_fail(capsys,
+
+You will probably have to sort it so that the tests which tests that errors are
+raised from missing files will have to be parameterized to get the desired
+effect
+applied_to_app_test.py:def test_applied_to_app_no_db_fail(capsys,
+rejected_from_app_test.py:def test_rejected_from_app_no_db_fail(capsys,
+show_apps_test.py:def test_show_apps_no_db_fail(capsys):
+
+You will probably have to sort it so that the tests which tests that errors are
+raised from missing files will have to be parameterized to get the desired
+effect
+applied_to_app_test.py:def test_applied_to_app_no_app_in_working_fail(capsys,
+rejected_from_app_test.py:def test_rejectd_from_app_no_app_in_applied_fail(capsys,
+
+applied_to_app_test.py:def test_applied_to_app_successful_mv(setup_test_new_app):
+rejected_from_app_test.py:def test_rejected_from_app_successful_mv(setup_test_applied_app):
+
+
+This test is good but applied and rejected need analogous tests
+    new_app_test.py:def test_new_app_correct_db_entry(cleanup_test_db):
+
+Will be left unmodified for now
+    main_test.py:def test_no_args():
+    main_test.py:def test_invalid_2nd_arg():
+    main_test.py:def test_invalid_3rd_arg():
+    sanitize_filename_test.py:def test_sanitize_filename(illegal_char):
