@@ -1,6 +1,11 @@
 from jh_trakr.job_app import (new_app, applied_to_app,
                               rejected_from_app, show_apps)
+from gettext import gettext
 import sys
+import os
+
+# import getopt
+# import argparse
 
 usage_msg = (
     "\nusage: jh-trakr [new | applied | rejected |"
@@ -17,6 +22,7 @@ usage_msg = (
     " job application data unless filtered by status\n\n"
 
 )
+
 wrong_show_syntax_msg = (
     "\nshow usage: jh-trakr s[how] [w[orking] | a[pplied] | r[ejected]]\n\n"
     "\tjh-trakr show\n\n\t\tShows all applications and their data\n\n"
@@ -28,9 +34,46 @@ wrong_show_syntax_msg = (
     " status\n\n"
 )
 
+no_conf_msg = (
+    "\nNo config file was found\n\n"
+)
+
+
+STD_CONF_FILE = "jht.conf"
+
+
+def parse_config(conf):
+    # Check if file is empty - replace with just checking file size
+    # with open(conf, 'r') as file:
+    #     for line in file:
+    #         if not line.isspace():
+    #             # Check if the line is not empty or whitespace
+    #             return False
+    # return True  # All lines are empty or whitespace
+    # replace true/false with logic
+    pass
+
+
+def creat_conf_menu():
+    """ You gotta download menu for this """
+    pass
+
+
+def check_config():
+
+    conf = os.path.join("~/.config", STD_CONF_FILE)
+
+    if os.path.exists(conf):
+        parse_config(conf)
+    else:
+        print(gettext(no_conf_msg))
+        creat_conf_menu()
+
 
 def main():
     if len(sys.argv) == 2:
+
+        # check_config()
 
         # The startswith calls allows each command to be abbrieviated
 
@@ -47,13 +90,13 @@ def main():
             show_apps()
 
         else:
-            print(usage_msg, file=sys.stderr)
+            print(gettext(usage_msg), file=sys.stderr)
             sys.exit(1)
 
     elif len(sys.argv) == 3:
 
         if not "show".startswith(sys.argv[1]):
-            print(usage_msg, file=sys.stderr)
+            print(gettext(usage_msg), file=sys.stderr)
             sys.exit(1)
 
         if "working".startswith(sys.argv[2]):
@@ -66,15 +109,15 @@ def main():
             opt = "rejected"
 
         else:
-            print(wrong_show_syntax_msg, file=sys.stderr)
+            print(gettext(wrong_show_syntax_msg), file=sys.stderr)
             sys.exit(1)
 
         show_apps(opt)
 
     else:
-        print(usage_msg, file=sys.stderr)
+        print(gettext(usage_msg), file=sys.stderr)
         sys.exit(1)
 
 
 if __name__ == '__main__':
-    main()
+    exit(main())

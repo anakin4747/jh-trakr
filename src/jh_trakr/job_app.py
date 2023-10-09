@@ -1,6 +1,7 @@
 from datetime import datetime
 from pyfzf.pyfzf import FzfPrompt
 from tabulate import tabulate
+import gettext
 import sqlite3
 import shutil
 import sys
@@ -40,10 +41,10 @@ def new_app(database=STD_DB, test_args=None, work_dir=WORKING_DIR) -> int:
     the working directory and updates the database to reflect the status """
 
     if test_args is None:
-        company_input = input("Company: ").lstrip().rstrip()
-        position_input = input("Position: ").lstrip().rstrip()
-        location_input = input("Location: ").lstrip().rstrip()
-        url_input = input("URL: ").rstrip()
+        company_input = input(gettext("Company: ")).lstrip().rstrip()
+        position_input = input(gettext("Position: ")).lstrip().rstrip()
+        location_input = input(gettext("Location: ")).lstrip().rstrip()
+        url_input = input(gettext("URL: ")).lstrip().rstrip()
     else:
         # For testing to get around input() function
         company_input, position_input, location_input, url_input = test_args
@@ -106,18 +107,18 @@ def applied_to_app(database=STD_DB, test_args=None,
 
     # Check files exist to ensure there is a working application
     if not os.path.exists(work_dir):
-        print("\nNo working directory - Try calling 'jh-trakr new' first\n",
-              file=sys.stderr)
+        print(gettext("\nNo working directory - Try calling 'jh-trakr new'"
+              " first\n"), file=sys.stderr)
         sys.exit(1)
 
     if not os.listdir(work_dir):
-        print("\nNo working application - Try calling 'jh-trakr new' first\n",
-              file=sys.stderr)
+        print(gettext("\nNo working application - Try calling 'jh-trakr new'"
+              " first\n"), file=sys.stderr)
         sys.exit(1)
 
     if not os.path.exists(database):
-        print("\nNo database file - Try calling 'jh-trakr new' first\n",
-              file=sys.stderr)
+        print(gettext("\nNo database file - Try calling 'jh-trakr new'"
+              " first\n"), file=sys.stderr)
         sys.exit(1)
 
     if test_args is None:
@@ -125,7 +126,7 @@ def applied_to_app(database=STD_DB, test_args=None,
         try:
             applied_app = FzfPrompt().prompt(os.listdir(work_dir))[0]
         except SystemError:
-            print(no_fzf_err_msg, file=sys.stderr)
+            print(gettext(no_fzf_err_msg), file=sys.stderr)
             sys.exit(1)
 
     else:
@@ -169,18 +170,18 @@ def rejected_from_app(database=STD_DB, test_args=None,
 
     # Check files exist to ensure there is an applied application
     if not os.path.exists(applied_dir):
-        print("\nNo applied directory - Try calling 'jh-trakr new && jh-trakr"
-              " applied' first\n", file=sys.stderr)
+        print(gettext("\nNo applied directory - Try calling 'jh-trakr new &&"
+              " jh-trakr applied' first\n"), file=sys.stderr)
         sys.exit(1)
 
     if not os.listdir(applied_dir):
-        print("\nNo applied application - Try calling 'jh-trakr new &&"
-              " jh-trakr applied' first\n", file=sys.stderr)
+        print(gettext("\nNo applied application - Try calling 'jh-trakr new &&"
+              " jh-trakr applied' first\n"), file=sys.stderr)
         sys.exit(1)
 
     if not os.path.exists(database):
-        print("\nNo database file - Try calling 'jh-trakr new && jh-trakr"
-              " applied' first\n", file=sys.stderr)
+        print(gettext("\nNo database file - Try calling 'jh-trakr new &&"
+              " jh-trakr applied' first\n"), file=sys.stderr)
 
         sys.exit(1)
 
@@ -189,7 +190,7 @@ def rejected_from_app(database=STD_DB, test_args=None,
         try:
             rejected_app = FzfPrompt().prompt(os.listdir(applied_dir))[0]
         except SystemError:
-            print(no_fzf_err_msg, file=sys.stderr)
+            print(gettext(no_fzf_err_msg), file=sys.stderr)
             sys.exit(1)
     else:
         # Get around fzf prompt in testing
@@ -230,8 +231,8 @@ def show_apps(opt="all", database=STD_DB):
     where <status> is job status
     """
     if not os.path.exists(database):
-        print("\nNo database file - Try calling 'jh-trakr new' first\n",
-              file=sys.stderr)
+        print(gettext("\nNo database file - Try calling 'jh-trakr new'"
+              " first\n"), file=sys.stderr)
         sys.exit(1)
 
     db_no_suffix = database.split('.')[0]

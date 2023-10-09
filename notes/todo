@@ -1,5 +1,47 @@
 
-- Add install instructions in README
+FEATURES
+
+    - Make the application timezone aware and store dates correctly
+
+    - Have options for project creations
+        - A project being the folder which contains "working"
+
+    - Add a major feature which has the app poll your mail for application
+
+    - Look into getopt and argparse packages for command line opts/args
+
+    - Config options - Make them all similar to vimscript or lua config
+        - set mail feature on
+        - config directory
+        - set locale
+
+TODO
+
+- Notes on current performance
+    - new command seems kinda useless I always just end up running new and
+      applied back to back, maybe let you select between working and applied?
+
+- For db stuff
+    - Make it so that the date field of the database is timezone aware
+    - Make the database store resumes and files so that you can clean up
+      applied and rejected applications
+
+- Switch to menu package instead of fzf
+
+- Add selection for resume templates
+
+- Include Makefiles for personal implementation
+
+- Include logic to not include files like Makefiles and DS_Store
+
+- Figure out how to have template folder actually found from any location
+
+- Make it so that you select a project directory or configure one so that the
+  application doesn't have to be one place for it to work
+- A command line tool should work from any directory not just the one you want
+  to store your files
+    - Add functionality that allows config on first run so the folders and db
+      wont just be copied into every directory
 
 - Refactor tests
     - rename tests to have better titles
@@ -15,6 +57,8 @@
       just in the folder they install it in
 
 Done
+- Add install instructions in README
+
 - Fix build system
     - Figure out how to properly disribute project with dependancies (oh wait
       just maybe dont and have them pip install -r req.txt)

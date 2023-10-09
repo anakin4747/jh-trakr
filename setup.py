@@ -13,12 +13,13 @@ setup(
 
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
+    include_package_data=True,
 
     install_requires=['pyfzf', 'tabulate'],
 
     entry_points={
         'console_scripts': [
-            'jh-trakr = jh_trakr.main:main',
+            'jh = jh_trakr.main:main',
         ]
     },
 )

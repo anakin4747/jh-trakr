@@ -1,5 +1,5 @@
 PROJ = jh_trakr
-CLI = jh-trakr
+CLI = jh
 
 build: setup.py
 	python3 setup.py build bdist_wheel
@@ -12,7 +12,7 @@ uninstall:
 	pip3 uninstall $(CLI)
 
 test:
-	pytest -v
+	pytest --cov=$(PROJ) tests
 
 clean:
 	rm -rf build dist src/$(PROJ).egg-info
